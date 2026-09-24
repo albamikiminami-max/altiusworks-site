@@ -19,6 +19,12 @@
     altImages.forEach(img=>{if(img.classList.contains('lang-image'))return;img.alt=normalized==='en'?img.dataset.altEn:img.dataset.altJa;});
     langButtons.forEach(btn=>{const active=btn.dataset.lang===normalized;btn.classList.toggle('is-active',active);btn.setAttribute('aria-pressed',String(active));});
     if(menuButton){menuButton.setAttribute('aria-label',normalized==='en'?(menuButton.dataset.ariaEn||'Open menu'):(menuButton.dataset.ariaJa||'メニューを開く'));}
+    const nextInput=document.getElementById('form-next');
+    const urlInput=document.getElementById('form-url');
+    try{
+      if(nextInput){const nextUrl=new URL('thanks.html',window.location.href);if(normalized==='en')nextUrl.searchParams.set('lang','en');nextInput.name='_next';nextInput.value=nextUrl.href;}
+      if(urlInput){const formUrl=new URL(window.location.href);formUrl.hash='contact';urlInput.name='_url';urlInput.value=formUrl.href;}
+    }catch(e){}
     try{localStorage.setItem('altiusworks-language',normalized)}catch(e){}
     try{const url=new URL(window.location.href);if(normalized==='en')url.searchParams.set('lang','en');else url.searchParams.delete('lang');history.replaceState(null,'',url)}catch(e){}
   }
