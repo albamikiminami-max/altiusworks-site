@@ -28,8 +28,8 @@
     try{localStorage.setItem('altiusworks-language',normalized)}catch(e){}
     try{const url=new URL(window.location.href);if(normalized==='en')url.searchParams.set('lang','en');else url.searchParams.delete('lang');history.replaceState(null,'',url)}catch(e){}
   }
-  langButtons.forEach(btn=>btn.addEventListener('click',()=>{if(document.documentElement.dataset.languageDraft==='ja-only' && btn.dataset.lang==='en'){alert('英語版は次の工程で反映予定です。現在は日本語版の骨格をご確認ください。');return;}applyLanguage(btn.dataset.lang);}));
-  let initial='ja';try{const q=new URLSearchParams(location.search).get('lang');initial=q==='en'?'en':(localStorage.getItem('altiusworks-language')||'ja')}catch(e){}
+  langButtons.forEach(btn=>btn.addEventListener('click',()=>{if(document.documentElement.dataset.languageDraft==='ja-only' && btn.dataset.lang==='en'){alert('英語版は次の工程で反映予定です。現在は日本語版のでご確認ください。');return;}applyLanguage(btn.dataset.lang);}));
+  let initial='ja';try{const q=new URLSearchParams(location.search).get('lang');initial=q==='en'?'en':'ja'}catch(e){}
   if(document.documentElement.dataset.languageDraft==='ja-only') initial='ja';
   applyLanguage(initial);
   if(menuButton&&mobileNav){menuButton.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));});mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}));}
