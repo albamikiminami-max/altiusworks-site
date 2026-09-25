@@ -85,10 +85,21 @@
       return;
     }
 
-    target.scrollIntoView({behavior:'auto',block:'start'});
+    /* Force this cross-page jump to be instant. The site normally uses
+       html{scroll-behavior:smooth}, so behavior:'auto' would still animate
+       from the top of HOME in some browsers. */
+    const previousScrollBehavior=document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior='auto';
+    if(document.body) document.body.style.scrollBehavior='auto';
+
+    const targetTop=target.getBoundingClientRect().top + window.scrollY - 95;
+    window.scrollTo(0,Math.max(0,targetTop));
+
     requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
         document.documentElement.style.visibility='visible';
+        document.documentElement.style.scrollBehavior=previousScrollBehavior;
+        if(document.body) document.body.style.scrollBehavior='';
         try{sessionStorage.removeItem('altiusworks-anchor-target')}catch(e){}
         if(location.hash!==hash) history.replaceState(null,'',hash);
         if('scrollRestoration' in history) history.scrollRestoration='auto';
