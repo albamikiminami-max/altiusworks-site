@@ -31,6 +31,36 @@
 
   langButtons.forEach(btn=>btn.addEventListener('click',()=>applyLanguage(btn.dataset.lang)));
 
+  /* Cross-page menu jump: remember the HOME section first, then open HOME without a hash.
+     This prevents the browser from briefly painting the top of HOME before the target section. */
+  document.querySelectorAll('a[href^="index.html#"]').forEach(link=>{
+    link.addEventListener('click',event=>{
+      const href=link.getAttribute('href')||'';
+      const hashIndex=href.indexOf('#');
+      if(hashIndex<0) return;
+      const hash=href.slice(hashIndex);
+      if(!hash) return;
+
+      event.preventDefault();
+      const currentFile=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+      if(currentFile==='index.html'){
+        const target=document.querySelector(hash);
+        if(target){
+          target.scrollIntoView({behavior:'smooth',block:'start'});
+          history.replaceState(null,'',hash);
+        }
+        return;
+      }
+
+      let stored=false;
+      try{sessionStorage.setItem('altiusworks-anchor-target',hash);stored=true}catch(e){}
+      const homeUrl=new URL('index.html',window.location.href);
+      if(document.documentElement.lang==='en') homeUrl.searchParams.set('lang','en');
+      if(!stored) homeUrl.hash=hash;
+      window.location.assign(homeUrl.href);
+    });
+  });
+
   let initial='ja';
   try{
     const q=new URLSearchParams(location.search).get('lang');
@@ -38,6 +68,38 @@
     initial=q==='en'?'en':q==='ja'?'ja':(saved==='en'?'en':'ja');
   }catch(e){}
   applyLanguage(initial);
+
+  function revealAnchorTarget(){
+    let hash='';
+    try{hash=sessionStorage.getItem('altiusworks-anchor-target')||location.hash||''}catch(e){hash=location.hash||''}
+    if(!hash){
+      document.documentElement.style.visibility='visible';
+      return;
+    }
+
+    const target=document.querySelector(hash);
+    if(!target){
+      try{sessionStorage.removeItem('altiusworks-anchor-target')}catch(e){}
+      document.documentElement.style.visibility='visible';
+      if('scrollRestoration' in history) history.scrollRestoration='auto';
+      return;
+    }
+
+    target.scrollIntoView({behavior:'auto',block:'start'});
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        document.documentElement.style.visibility='visible';
+        try{sessionStorage.removeItem('altiusworks-anchor-target')}catch(e){}
+        if(location.hash!==hash) history.replaceState(null,'',hash);
+        if('scrollRestoration' in history) history.scrollRestoration='auto';
+      });
+    });
+  }
+
+  if(document.documentElement.style.visibility==='hidden'){
+    if(document.readyState==='complete') revealAnchorTarget();
+    else window.addEventListener('load',revealAnchorTarget,{once:true});
+  }
 
   if(menuButton&&mobileNav){
     menuButton.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));});

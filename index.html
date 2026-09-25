@@ -9,29 +9,20 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <script>
 try{
-  if(location.hash){
+  const pendingAnchor=sessionStorage.getItem('altiusworks-anchor-target');
+  if(pendingAnchor || location.hash){
     if('scrollRestoration' in history){
       history.scrollRestoration='manual';
     }
-
+    if(!pendingAnchor && location.hash){
+      sessionStorage.setItem('altiusworks-anchor-target',location.hash);
+    }
     document.documentElement.style.visibility='hidden';
 
-    window.addEventListener('load',function(){
-      const target=document.querySelector(location.hash);
-
-      if(target){
-        const top=target.getBoundingClientRect().top + window.scrollY - 95;
-        window.scrollTo({
-          top:Math.max(0,top),
-          behavior:'auto'
-        });
-      }
-
-      requestAnimationFrame(function(){
-        document.documentElement.style.visibility='visible';
-      });
-    },{once:true});
-
+    /* Fallback: never leave the page hidden if script loading is interrupted. */
+    window.setTimeout(function(){
+      document.documentElement.style.visibility='visible';
+    },2000);
   }else if(!sessionStorage.getItem('altiusworks-home-intro')){
     document.documentElement.classList.add('home-intro-pending');
   }
@@ -90,11 +81,11 @@ try{
 <footer class="footer">
 <nav class="footer-nav">
 <a href="index.html">HOME</a>
-<a class="i18n" data-en="About us" data-ja="私たちについて" href="index.html#about">私たちについて</a>
-<a class="i18n" data-en="Services" data-ja="事業紹介" href="index.html#service">事業紹介</a>
-<a class="i18n" data-en="Information" data-ja="お知らせ" href="index.html#information">お知らせ</a>
-<a class="i18n" data-en="Company" data-ja="会社概要" href="index.html#company">会社概要</a>
-<a class="i18n" data-en="Contact" data-ja="お問い合わせ" href="index.html#contact">お問い合わせ</a>
+<a class="i18n" data-en="About us" data-ja="私たちについて" href="#about">私たちについて</a>
+<a class="i18n" data-en="Services" data-ja="事業紹介" href="#service">事業紹介</a>
+<a class="i18n" data-en="Information" data-ja="お知らせ" href="#information">お知らせ</a>
+<a class="i18n" data-en="Company" data-ja="会社概要" href="#company">会社概要</a>
+<a class="i18n" data-en="Contact" data-ja="お問い合わせ" href="#contact">お問い合わせ</a>
 <a class="i18n" data-en="Privacy Policy" data-ja="プライバシーポリシー" href="privacy-policy.html">プライバシーポリシー</a>
 </nav>
 <div class="footer-brand">ALTIUS WORKS</div>
