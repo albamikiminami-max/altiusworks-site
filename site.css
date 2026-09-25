@@ -51,6 +51,13 @@ html[lang="en"] .hero-copy{width:min(49%,720px);left:3.6%}
 .about-copy{width:100%;height:auto}.about-photo{width:100%;aspect-ratio:1.27/1;object-fit:cover;object-position:center}.three-points{margin-top:44px;width:100%;height:auto}
 
 /* shared sections */
+#about,
+#service,
+#information,
+#company,
+#contact{
+  scroll-margin-top:95px;
+}
 .section{padding:48px clamp(26px,4.3vw,72px) 58px;background:#fff}.section-head{margin-bottom:26px}
 .section-head h2{margin:0;font-family:"Libre Caslon Text",Georgia,serif;color:#aaa;font-size:clamp(28px,3vw,50px);line-height:1;letter-spacing:.01em;font-weight:700}
 .section-head p{margin:8px 0 0;font-size:12px;font-weight:700}
@@ -387,4 +394,47 @@ html[lang="en"] .required{margin-left:7px;font-size:10px}
   .about-en-body p{font-size:11.8px}
   .feature-visual h3.jp-feature-title{font-size:27px}
   .thanks-panel{min-height:440px;padding:56px 20px}
+}
+
+
+/* =========================================================
+   v7 refinements - unified navigation, mobile hero, intro motion
+   ========================================================= */
+
+/* Five desktop navigation destinations + contact button, consistently on every page. */
+.desktop-nav{gap:clamp(15px,2.15vw,34px);font-size:14.5px}
+.footer-nav{row-gap:12px}
+
+/* Mobile hero copy: lift both languages; make English more compact so it clears the laptop. */
+@media(max-width:820px){
+  .hero-copy{left:7%;width:43%;top:43%}
+  html[lang="en"] .hero-copy{left:5%;width:61%;top:39%}
+}
+@media(max-width:520px){
+  .hero-copy{left:7%;width:49%;top:42%}
+  html[lang="en"] .hero-copy{left:5%;width:64%;top:37.5%}
+}
+
+/* English detail headings can run longer than Japanese. Keep them balanced rather than oversized. */
+html[lang="en"] .detail-title{font-size:clamp(29px,3vw,44px)}
+html[lang="en"] .detail-heading h2{font-size:clamp(21px,1.8vw,29px)}
+html[lang="en"] .capability-card .bar{font-size:16px}
+html[lang="en"] .feature-visual h3.jp-feature-title{font-family:"Libre Caslon Text",Georgia,serif;letter-spacing:0;font-size:clamp(27px,2.45vw,38px);line-height:1.22}
+html[lang="en"] .feature-copy h3{white-space:normal}
+
+/* First HOME view in a browser session: subtle image reveal + delayed copy fade-up. */
+@keyframes awHeroImageReveal{
+  0%{opacity:.28;transform:scale(1.018)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes awHeroCopyReveal{
+  0%{opacity:0;transform:translateY(calc(-50% + 18px))}
+  100%{opacity:1;transform:translateY(-50%)}
+}
+html.home-intro-pending .hero{overflow:hidden}
+html.home-intro-pending .hero-photo{animation:awHeroImageReveal 1.25s cubic-bezier(.2,.65,.3,1) both;transform-origin:center center}
+html.home-intro-pending .hero-copy{animation:awHeroCopyReveal .9s cubic-bezier(.2,.7,.25,1) .24s both}
+@media(prefers-reduced-motion:reduce){
+  html.home-intro-pending .hero-photo,
+  html.home-intro-pending .hero-copy{animation:none!important}
 }
