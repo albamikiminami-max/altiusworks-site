@@ -10,11 +10,34 @@
 <script>
 try{
   if(location.hash){
-    document.documentElement.classList.add('anchor-entry');
+    if('scrollRestoration' in history){
+      history.scrollRestoration='manual';
+    }
+
+    document.documentElement.style.visibility='hidden';
+
+    window.addEventListener('load',function(){
+      const target=document.querySelector(location.hash);
+
+      if(target){
+        const top=target.getBoundingClientRect().top + window.scrollY - 95;
+        window.scrollTo({
+          top:Math.max(0,top),
+          behavior:'auto'
+        });
+      }
+
+      requestAnimationFrame(function(){
+        document.documentElement.style.visibility='visible';
+      });
+    },{once:true});
+
   }else if(!sessionStorage.getItem('altiusworks-home-intro')){
     document.documentElement.classList.add('home-intro-pending');
   }
-}catch(e){}
+}catch(e){
+  document.documentElement.style.visibility='visible';
+}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Noto+Sans+JP:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="site.css" rel="stylesheet"/>
