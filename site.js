@@ -48,4 +48,32 @@
     try{sessionStorage.setItem('altiusworks-home-intro','1')}catch(e){}
     window.setTimeout(()=>document.documentElement.classList.remove('home-intro-pending'),1700);
   }
+function showAnchorTarget(){
+  if(!document.documentElement.classList.contains('anchor-entry')) return;
+
+  const hash=window.location.hash;
+  const target=hash ? document.querySelector(hash) : null;
+
+  if(!target){
+    document.documentElement.classList.remove('anchor-entry');
+    return;
+  }
+
+  requestAnimationFrame(()=>{
+    target.scrollIntoView({
+      behavior:'auto',
+      block:'start'
+    });
+
+    requestAnimationFrame(()=>{
+      document.documentElement.classList.remove('anchor-entry');
+    });
+  });
+}
+
+if(document.readyState==='complete'){
+  showAnchorTarget();
+}else{
+  window.addEventListener('load',showAnchorTarget,{once:true});
+}
 })();

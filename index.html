@@ -7,7 +7,16 @@
 <meta content="ALTIUS WORKS合同会社。製造現場を理解し、ものづくり支援・デジタル活用支援・伝える支援を行います。" data-en="ALTIUS WORKS supports manufacturing through CAD/CAM, practical digital solutions, and clear technical communication." data-ja="ALTIUS WORKS合同会社。製造現場を理解し、ものづくり支援・デジタル活用支援・伝える支援を行います。" name="description"/>
 <title>ALTIUS WORKS</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<script>try{if(!sessionStorage.getItem('altiusworks-home-intro'))document.documentElement.classList.add('home-intro-pending')}catch(e){}</script><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Noto+Sans+JP:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+try{
+  if(location.hash){
+    document.documentElement.classList.add('anchor-entry');
+  }else if(!sessionStorage.getItem('altiusworks-home-intro')){
+    document.documentElement.classList.add('home-intro-pending');
+  }
+}catch(e){}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Noto+Sans+JP:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="site.css" rel="stylesheet"/>
 </head>
 <body>

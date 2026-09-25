@@ -58,6 +58,9 @@ html[lang="en"] .hero-copy{width:min(49%,720px);left:3.6%}
 #contact{
   scroll-margin-top:95px;
 }
+html.anchor-entry body{
+  visibility:hidden;
+}
 .section{padding:48px clamp(26px,4.3vw,72px) 58px;background:#fff}.section-head{margin-bottom:26px}
 .section-head h2{margin:0;font-family:"Libre Caslon Text",Georgia,serif;color:#aaa;font-size:clamp(28px,3vw,50px);line-height:1;letter-spacing:.01em;font-weight:700}
 .section-head p{margin:8px 0 0;font-size:12px;font-weight:700}
